@@ -1,447 +1,341 @@
-<a href="https://imhex.werwolv.net">
-  <h1 align="center">
-    <picture>
-      <img height="300px" style="margin: 0; padding: 0" src="./resources/dist/common/logo/ImHexLogoSVGBG.svg">
-    </picture>
-  </h1>
-</a>
+# **ImNAND**
 
-<p align="center">
-    A Hex Editor for Reverse Engineers, Programmers and people who value their retinas when working at 3 AM.
-    <br>
-    <a href="https://itinerarium.github.io/phoneme-synthesis/?w=/'ˈɪmhɛks/"><strong>/ˈɪmhɛks/</strong></a>
-</p>
-<p align="center">
-  <a title="'Build' workflow Status" href="https://github.com/WerWolv/ImHex/actions?query=workflow%3ABuild"><img alt="'Build' workflow Status" src="https://img.shields.io/github/actions/workflow/status/WerWolv/ImHex/build.yml?longCache=true&style=for-the-badge&label=Build&logoColor=fff&logo=GitHub%20Actions&branch=master"></a>
-  <a title="Discord Server" href="https://discord.gg/X63jZ36xBY"><img alt="Discord Server" src="https://img.shields.io/discord/789833418631675954?label=Discord&logo=Discord&logoColor=fff&style=for-the-badge"></a>
-  <a title="Total Downloads" href="https://github.com/WerWolv/ImHex/releases/latest"><img alt="Total Downloads" src="https://img.shields.io/github/downloads/WerWolv/ImHex/total?longCache=true&style=for-the-badge&label=Downloads&logoColor=fff&logo=GitHub"></a>
-  <a title="Code Quality" href="https://www.codefactor.io/repository/github/werwolv/imhex"><img alt="Code Quality" src="https://img.shields.io/codefactor/grade/github/WerWolv/ImHex?longCache=true&style=for-the-badge&label=Code%20Quality&logoColor=fff&logo=CodeFactor&branch=master"></a>
-  <a title="Translation" href="https://weblate.werwolv.net/projects/imhex/"><img alt="Translation" src="https://img.shields.io/weblate/progress/imhex?logo=weblate&logoColor=%23FFFFFF&server=https%3A%2F%2Fweblate.werwolv.net&style=for-the-badge"></a>
-  <a title="Plugins" href="https://github.com/WerWolv/ImHex/blob/master/PLUGINS.md"><img alt="Plugins" src="https://img.shields.io/badge/Plugins-Supported-brightgreen?logo=stackedit&logoColor=%23FFFFFF&style=for-the-badge"></a>
-</p>
+A cross-platform NAND flash programming and configuration utility.
 
-<p align="center">
-  <a title="Download the latest version of ImHex" href="https://imhex.download"><img alt="Download the latest version of ImHex!" src="resources/dist/common/get_release_banner.png"></a>
-  <a title="Download the latest nightly pre-release version of ImHex" href="https://imhex.download/#nightly"><img alt="Download the latest nightly pre-release version of ImHex" src="resources/dist/common/get_nightly_banner.png"></a>
-  <a title="Use the Web version of ImHex right in your browser!" href="https://web.imhex.werwolv.net"><img alt="Use the Web version of ImHex right in your browser!" src="resources/dist/common/try_online_banner.png"></a>
-  <a title="Read the documentation of ImHex!" href="https://docs.werwolv.net"><img alt="Read the documentation of ImHex!" src="resources/dist/common/read_docs_banner.png"></a>
-</p>
+ImNAND (pronounced "I am NAND") is a project aimed at building a
+comprehensive and flexible solution for programming and managing NAND
+flash memory.
 
-## Supporting
+The project combines a graphical NAND configuration editor with a
+dedicated OS connector, supporting both direct NAND programming and
+Linux MTD passthrough.
 
-If you like my work, please consider supporting me on GitHub Sponsors or Ko-Fi. Thanks a lot!
-If you use ImHex at your work place, please reach out per mail at [imhex@werwolv.net](mailto:imhex@werwolv.net) or on Discord to discuss a sponsorship and how we can improve ImHex for your use case!
+The name combines the original project's name with the word NAND,
+reflecting its focus on NAND flash memory.
 
-<p align="center">
-<a href="https://github.com/sponsors/WerWolv"><img src="https://werwolv.net/assets/github_banner.png" alt="GitHub donate button" /></a>
-<a href="https://ko-fi.com/WerWolv"><img src="https://werwolv.net/assets/kofi_banner.png" alt="Ko-Fi donate button" /></a>
-</p>
+> Project status: Early development / planning. Features and
+> architecture described below represent the project's goals and may not
+> yet be implemented.
 
-### Notable Sponsors
-|                                                                                                     |                                                                                   |
-|:---------------------------------------------------------------------------------------------------:|-----------------------------------------------------------------------------------|
-| [![JetBrains logo](https://avatars.githubusercontent.com/u/878437?s=48)](https://www.jetbrains.com) | JetBrains, providing us with free All Products Pack licenses for development      |
-|   [![SignPath logo](https://avatars.githubusercontent.com/u/34448643?s=48)](https://signpath.io/)   | SignPath, providing us with free Code Signing Certificates for our Windows builds |
-|     [![AWS logo](https://avatars.githubusercontent.com/u/2232217?s=48)](https://aws.amazon.com)     | Amazon, providing us with free AWS Cloud Credits for our CI                       |
+## **Overview**
 
-Would you like to appear here as well? Contact us at [imhex@werwolv.net](mailto:imhex@werwolv.net)!
+ImNAND is designed around two primary operating modes:
 
-## Screenshots
-![Hex editor, patterns and data information](https://github.com/user-attachments/assets/902a7c4c-410d-490f-999e-14c856fec027)
-![Bookmarks, data information, find view and data processor](https://github.com/user-attachments/assets/58eefa1f-31c9-4bb8-a1c1-8cdd8ddbd29f)
+- Programming mode – Directly program NAND flash memory using
+  configurable page layouts, partitions, and other NAND-specific
+  parameters.
+- MTD passthrough mode – Configure a Linux NAND controller through the
+  Linux MTD subsystem, allowing other components of the Linux ecosystem,
+  such as UBI and flash-oriented filesystems, to interact with the
+  device independently of ImNAND.
 
-<details>
-<summary><strong>More Screenshots</strong></summary>
+Both modes share a common configuration model. This means a NAND
+configuration created in the graphical editor can be reused for direct
+programming or uploaded to a Linux machine for MTD passthrough
+operation.
 
-![Data Processor decrypting some data and displaying it as an image](https://github.com/WerWolv/ImHex/assets/10835354/d0623081-3094-4840-a8a8-647b38724db8)
-![STL Parser written in the Pattern Language visualizing a 3D model](https://github.com/WerWolv/ImHex/assets/10835354/62cbcd18-1c3f-4dd6-a877-2bf2bf4bb2a5)
-![Data Information view displaying various stats about the file](https://github.com/WerWolv/ImHex/assets/10835354/d4706c01-c258-45c9-80b8-fe7a10d5a1de)
+The project is not intended to be a fork of ImHex. Although ImHex serves
+as the foundation and inspiration for the graphical editing experience,
+ImNAND has its own specific goals and does not intend to preserve most
+of the original project's plugins.
 
-</details>
+## **Features and goals**
 
-## Features
+The main objectives of ImNAND are:
 
-<details>
-  <summary><strong>Featureful hex view</strong></summary>
+- A flexible graphical interface for configuring NAND flash devices.
+- Reusable NAND configuration profiles.
+- Configurable NAND page layouts and partitions.
+- Direct NAND image programming.
+- Linux MTD passthrough configuration.
+- Local and remote device management.
+- A cross-platform OS connector architecture.
+- Integration with existing Linux NAND infrastructure.
+- A shared configuration model across supported operating systems.
 
-  - Byte patching
-  - Patch management
-  - Infinite Undo/Redo
-  - "Copy bytes as..."
-    - Bytes
-    - Hex string
-    - C, C++, C#, Rust, Python, Java & JavaScript array
-    - ASCII-Art hex view
-    - HTML self-contained div
-  - Simple string and hex search
-  - Goto from start, end and current cursor position
-  - Colorful highlighting
-    - Configurable foreground highlighting rules
-    - Background highlighting using patterns, find results and bookmarks
-  - Displaying data as a list of many different types
-    - Hexadecimal integers (8, 16, 32, 64 bit)
-    - Signed and unsigned decimal integers (8, 16, 32, 64 bit)
-    - Floats (16, 32, 64 bit)
-    - RGBA8 Colors
-    - HexII
-    - Binary
-  - Decoding data as ASCII and custom encodings
-    - Built-in support for UTF-8, UTF-16, ShiftJIS, most Windows encodings and many more
-  - Paged data view
-</details>
-<details>
-  <summary><strong>Custom C++-like pattern language for parsing highlighting a file's content</strong></summary>
-  
-  - Automatic loading based on MIME types and magic values
-  - Arrays, pointers, structs, unions, enums, bitfields, namespaces, little and big endian support, conditionals and much more!
-  - Useful error messages, syntax highlighting and error marking
-  - Support for visualizing many different types of data
-    - Images
-    - Audio
-    - 3D Models
-    - Coordinates
-    - Time stamps
-</details>
-<details>
-  <summary><strong>Theming support</strong></summary>
+## **Operating modes**
 
-  - Doesn't burn out your retinas when used in late-night sessions
-    - Dark mode by default, but a light mode is available as well
-  - Customizable colors and styles for all UI elements through shareable theme files
-  - Support for custom fonts
-</details>
-<details>
-  <summary><strong>Importing and Exporting data</strong></summary>
-  
-  - Base64 files
-  - IPS and IPS32 patches
-  - Markdown reports
-  - Binary arrays for various programming languages
-</details>
-<details>
-  <summary><strong>Data Inspector</strong></summary>
+### **Programming mode**
 
-  - Interpreting data as many different types with endianness, decimal, hexadecimal and octal support and bit inversion
-    - Unsigned and signed integers (8, 16, 24, 32, 48, 64 bit)
-    - Floats (16, 32, 64 bit)
-    - Signed and Unsigned LEB128
-    - ASCII, Wide and UTF-8 characters and strings
-    - time32_t, time64_t, DOS date and time
-    - GUIDs
-    - RGBA8 and RGB65 Colors
-  - Copying and modifying bytes through the inspector
-  - Adding new data types through the pattern language
-  - Support for hiding rows that aren't used
-</details>
-<details>
-  <summary><strong>Node-based data pre-processor</strong></summary>
+Supported platforms: Windows and Linux
 
-  - Modify, decrypt and decode data before it's being displayed in the hex editor
-  - Modify data without touching the underlying source
-  - Support for adding custom nodes
-</details>
-<details>
-  <summary><strong>Loading data from many different data sources</strong></summary>
+Programming mode provides direct access to NAND flash programming
+functionality.
 
-  - Local Files
-    - Support for huge files with fast and efficient loading
-  - Raw Disks
-    - Loading data from raw disks and partitions
-  - GDB Server
-    - Access the RAM of a running process or embedded devices through GDB
-  - Intel Hex and Motorola SREC data
-  - Base64 encoded data
-  - UDP Packets
-    - Support for displaying raw data received over UDP
-  - Process Memory
-    - Inspect the entire address space of a running process
-  - Remote Files over SSH with SFTP
-    - Support for loading files from remote servers using SSH and SFTP
-</details>
-<details>
-  <summary><strong>Data searching</strong></summary>
-  
-  - Support for searching the entire file or only a selection
-  - String extraction
-    - Option to specify minimum length and character set (lower case, upper case, digits, symbols)
-    - Option to specify encoding (ASCII, UTF-8, UTF-16 big and little endian)
-  - Sequence search
-    - Search for a sequence of bytes or characters
-    - Option to ignore character case
-  - Regex search
-    - Search for strings using regular expressions
-  - Binary Pattern
-    - Search for sequences of bytes with optional wildcards
-  - Numeric Value search
-    - Search for signed/unsigned integers and floats
-    - Search for ranges of values
-    - Option to specify size and endianness
-    - Option to ignore unaligned values
-</details>
-<details>
-  <summary><strong>Data hashing support</strong></summary>
+A NAND image can be programmed using a configuration assembled in the
+graphical editor. Configuration nodes describe the NAND layout and
+programming parameters, including:
 
-  - Many different algorithms available
-    - CRC8, CRC16 and CRC32 with custom initial values and polynomials
-      - Many default polynomials available
-    - MD5
-    - SHA-1, SHA-224, SHA-256, SHA-384, SHA-512
-    - Adler32
-    - AP
-    - BKDR
-    - Bernstein, Bernstein1
-    - DEK, DJB, ELF, FNV1, FNV1a, JS, PJW, RS, SDBM
-    - OneAtTime, Rotating, ShiftAndXor, SuperFast
-    - Murmur2_32, MurmurHash3_x86_32, MurmurHash3_x86_128, MurmurHash3_x64_128
-    - SipHash64, SipHash128
-    - XXHash32, XXHash64
-    - Tiger, Tiger2
-    - Blake2B, Blake2S
-  - Hashing of specific regions of the loaded data
-  - Hashing of arbitrary strings
-</details>
-<details>
-  <summary><strong>Diffing support</strong></summary>
+- Page layouts.
+- Partitions.
+- NAND-specific configuration.
+- Other programming-related parameters.
 
-  - Compare data of different data sources
-  - Difference highlighting
-  - Table view of differences
-</details>
-<details>
-  <summary><strong>Integrated disassembler</strong></summary>
-  
-  - Support for all architectures supported by Capstone
-    - ARM32 (ARM, Thumb, Cortex-M, AArch32)
-    - ARM64
-    - MIPS (MIPS32, MIPS64, MIPS32R6, Micro)
-    - x86 (16-bit, 32-bit, 64-bit)
-    - PowerPC (32-bit, 64-bit)
-    - SPARC
-    - IBM SystemZ
-    - xCORE
-    - M68K
-    - TMS320C64X
-    - M680X
-    - Ethereum
-    - RISC-V
-    - WebAssembly
-    - MOS65XX
-    - Berkeley Packet Filter
-  - Support for writing custom disassemblers for your own architectures
-</details>
-<details>
-  <summary><strong>Bookmarks</strong></summary>
+Communication with the actual NAND device is handled through an OS
+connector service.
 
-  - Support for bookmarks with custom names and colors
-  - Highlighting of bookmarked region in the hex editor
-  - Jump to bookmarks
-  - Open content of bookmark in a new tab
-  - Add comments to bookmarks
-</details>
-<details>
-  <summary><strong>Featureful data analyzer and visualizer</strong></summary>
+The intended backends are:
 
-  - File magic-based file parser and MIME type database
-  - Byte type distribution graph
-  - Entropy graph
-  - Highest and average entropy
-  - Encrypted / Compressed file detection
-  - Digram and Layered distribution graphs
-</details>
-<details>
-  <summary><strong>YARA Rule support</strong></summary>
+- Linux: `ufedmd`, which relies on the `ufedm` kernel module.
+- Windows: A dedicated userspace implementation using WinUSB.
 
-  - Scan a file for vulnerabilities with official yara rules
-  - Highlight matches in the hex editor
-  - Jump to matches
-  - Apply multiple rules at once
-</details>
-<details>
-  <summary><strong>Helpful tools</strong></summary>
+This architecture separates the graphical application from
+platform-specific hardware access.
 
-  - Itanium, MSVC, Rust and D-Lang demangler based on LLVM
-  - ASCII table
-  - Regex replacer
-  - Mathematical expression evaluator (Calculator)
-  - Graphing calculator
-  - Hexadecimal Color picker with support for many different formats
-  - Base converter
-  - Byte swapper
-  - UNIX Permissions calculator
-  - Wikipedia term definition finder
-  - File utilities
-    - File splitter
-    - File combiner
-    - File shredder
-  - IEEE754 Float visualizer
-  - Division by invariant multiplication calculator
-  - TCP Client/Server
-  - Euclidean algorithm calculator
-  - HTTP Requests
-</details>
-<details>
-  <summary><strong>Built-in Content updater</strong></summary>
+### **MTD passthrough mode**
 
-  - Download all files found in the database directly from within ImHex
-    - Pattern files for decoding various file formats
-    - Libraries for the pattern language
-    - Magic files for file type detection
-    - Custom data processor nodes
-    - Custom encodings
-    - Custom themes
-    - Yara rules
-</details>
-<details>
-  <summary><strong>Modern Interface</strong></summary>
+Supported platform: Linux only
 
-  - Support for multiple workspaces
-  - Support for custom layouts
-  - Detachable windows
-</details>
-<details>
-  <summary><strong>Easy to get started</strong></summary>
+MTD passthrough mode allows ImNAND to configure a Linux NAND controller
+without directly transferring NAND image data.
 
-  - Support for many different languages
-  - Simplified mode for beginners
-  - Extensive documentation
-  - Many example files available on [the Database](https://github.com/WerWolv/ImHex-Patterns)
-  - Achievements guiding you through the features of ImHex
-  - Interactive tutorials
-</details>
+Instead, ImNAND uploads the relevant configuration to an OS connector
+running on the target Linux machine. The connector loads the
+configuration into `ufedmd`, allowing the NAND device to operate through
+the Linux MTD subsystem.
 
-## Pattern Language
+This mode is particularly useful when integrating NAND storage with the
+rest of the Linux ecosystem, including:
 
-The Pattern Language is the completely custom programming language developed for ImHex.
-It allows you to define structures and data types in a C-like syntax and then use them to parse and highlight a file's content.
+- UBI (Unsorted Block Images).
+- UBIFS.
+- Other MTD-aware tools and filesystems.
 
-- Source Code: [Link](https://github.com/WerWolv/PatternLanguage/)
-- Documentation: [Link](https://docs.werwolv.net/pattern-language)
+Once configured, NAND data handling takes place independently of ImNAND.
 
-## Database
+In other words, ImNAND acts as a configuration frontend rather than a
+data programming utility in this mode.
 
-For format patterns, libraries, magic and constant files, check out the [ImHex-Patterns](https://github.com/WerWolv/ImHex-Patterns) repository. 
+## **Architecture**
 
-**Feel free to PR your own files there as well!**
+ImNAND consists of two major components.
 
-## Requirements
+### **Graphical application**
 
-To use ImHex, the following minimal system requirements need to be met.
+The main application provides the user interface for creating, editing,
+and managing NAND configurations.
 
-> [!IMPORTANT]
-> ImHex requires a GPU with OpenGL 3.0 support in general.
-> There are releases available (with the `-NoGPU` suffix) that are software rendered and don't require a GPU, however these can be a lot slower than the GPU accelerated versions.
-> 
-> If possible at all, make ImHex use the dedicated GPU on your system instead of the integrated one.
-> ImHex will usually run fine with integrated GPUs as well but certain Intel HD GPU drivers on Windows are known to cause graphical artifacts.
+It is responsible for:
 
-- **OS**: 
-  - **Windows**: Windows 7 or higher (Windows 10/11 recommended)
-  - **macOS**: macOS 15 (Sequoia) or higher, 
-    - Lower versions should still work too, but you'll need to compile ImHex yourself. The release binaries will NOT work due to GitHub not having any macOS 15 or lower CI runners available.
-    - The macOS build is not signed and will require you to manually allow them in the Security & Privacy settings.
-  - **Linux**: "Modern" Linux. The following distributions have official releases available. Other distros are supported through the AppImage, Flatpak and Snap releases.
-    - Ubuntu and Debian
-    - Fedora
-    - RHEL/AlmaLinux
-    - Arch Linux
-    - Basically any other distro will work as well when compiling ImHex from sources.
-  - **FreeBSD**: Tested on FreeBSD 14.3
-    - Other versions will most likely work too but are untested
-- **CPU**: Officially supported are x86, AMD64 and ARM64, though any Little Endian CPU should work.
-- **GPU**: OpenGL 3.0 or higher 
-  - Integrated Intel HD iGPUs are supported, however certain drivers are known to cause various graphical artifacts, especially on Windows. Use at your own risk.
-  - In case you don't have a GPU available, there are software rendered releases available for Windows and macOS
-- **RAM**: ~50MiB, more is required for more complex analysis
-- **Storage**: ~100MiB
+- Managing NAND configuration profiles.
+- Defining page layouts and partitions.
+- Selecting the operating mode.
+- Connecting to local or remote OS connector instances.
+- Initiating programming operations.
+- Uploading configurations for MTD passthrough.
 
-## Installing
+The graphical application is intended to be cross-platform.
 
-Information on how to install ImHex can be found in the [Install](/INSTALL.md) guide
+### **ImNAND OS connector**
 
-## Compiling
+The OS connector is a standalone service responsible for communicating
+with the underlying NAND hardware.
 
-To compile ImHex on any platform, GCC (or Clang) is required with a version that supports C++23 or higher. 
-Windows and Linux releases are being built using latest available GCC.
-MacOS releases are being built using latest available LLVM Clang.
+It operates as a socket-listening daemon and exposes functionality
+according to the operating system and available backend.
 
-Important to note is, the MSVC and AppleClang compilers are both **NOT** supported since they're both generally severely outdated and lack features GCC and LLVM Clang have.
+There are currently two planned backends:
 
-> [!NOTE]
-> Many dependencies are bundled into the repository using submodules so make sure to clone it using the `--recurse-submodules` option.
-> All dependencies that aren't bundled, can be installed using the dependency installer scripts found in the `/dist` folder.
+| Backend | Platform | Description | 
+| ----- | ----- | ----- | 
+| `ufedmd` | Linux | Uses the `ufedm` kernel module and Linux MTD infrastructure. |
+| WinUSB | Windows | Provides direct userspace NAND access through WinUSB. |
 
-For more information, check out the [Compiling](/dist/compiling) guide.
+Each OS connector instance is associated with one backing NAND storage
+device.
 
-## Contributing
-See [Contributing](/CONTRIBUTING.md)
+Multiple connector instances can be deployed to represent multiple NAND
+devices, whether they are connected locally or to remote machines.
 
+This makes it possible to manage several NAND devices through a single
+graphical application.
 
-## Plugin development
-To develop plugins for ImHex, use the following template project to get started. You then have access to the entirety of libimhex as well as the ImHex API and the Content Registry to interact with ImHex or to add new content.
-To build a plugin, you will need to use our SDK
+## **Operating system support**
 
-### Getting the SDK locally
-You can build the SDK by compiling ImHex like this:
-- `cmake -G Ninja -DIMHEX_BUNDLE_PLUGIN_SDK=ON -B build`
-- `cd build`
-- `DESTDIR=install ninja install`
-The SDK will then be available at `install/usr/local/share/imhex/sdk`. You will need to set the variable `IMHEX_SDK_PATH` to that (absolute) path.
+The availability of each operating mode depends on the underlying
+operating system.
 
-### Getting the SDK in a Github Actions CI
-You can use [this action](https://github.com/WerWolv/imhex-download-sdk) to automatically download the SDK to your Github Runner
-- [ImHex Plugin Template](https://github.com/WerWolv/ImHex-Plugin-Template)
+| Operating system | Programming mode | MTD passthrough | 
+| ----- |----- | ----- | 
+| Linux | Planned | Planned | 
+| Windows | Planned | Not supported |
+| macOS | Potential future support | Not supported |
 
+### **Linux**
 
-## Credits
+Linux provides the MTD subsystem, making it possible to integrate NAND
+devices with existing kernel infrastructure.
 
-### Contributors
+Both programming and MTD passthrough modes are intended to be supported.
 
-- [AxCut](https://github.com/paxcut) for a gigantic amount of contributions to the Pattern Text Editor and tons of other parts of ImHex
-- [iTrooz](https://github.com/iTrooz) for getting ImHex onto the Web as well as hundreds of contributions in every part of the project
-- [jumanji144](https://github.com/jumanji144) for huge contributions to the Pattern Language and ImHex's infrastructure
-- [Mary](https://github.com/marysaka) for her immense help porting ImHex to macOS and help during development
-- [Roblabla](https://github.com/Roblabla) for adding MSI Installer support to ImHex
-- [Mailaender](https://github.com/Mailaender) for getting ImHex onto Flathub
-- Everybody else who has reported issues on Discord or GitHub that I had great conversations with :)
+### **Windows**
 
-### Dependencies
+Windows does not provide an equivalent to the Linux MTD subsystem.
 
-- Thanks a lot to ocornut for their amazing [Dear ImGui](https://github.com/ocornut/imgui) which is used for building the entire interface
-  - Thanks to epezent for [ImPlot](https://github.com/epezent/implot) used to plot data in various places
-  - Thanks to Nelarius for [ImNodes](https://github.com/Nelarius/imnodes) used as base for the data processor 
-  - Thanks to BalazsJako for [ImGuiColorTextEdit](https://github.com/BalazsJako/ImGuiColorTextEdit) used for the pattern language syntax highlighting
-- Thanks to nlohmann for their [json](https://github.com/nlohmann/json) library used for configuration files
-- Thanks to vitaut for their [libfmt](https://github.com/fmtlib/fmt) library which makes formatting and logging so much better
-- Thanks to btzy for [nativefiledialog-extended](https://github.com/btzy/nativefiledialog-extended) and their great support, used for handling file dialogs on all platforms
-- Thanks to danyspin97 for [xdgpp](https://sr.ht/~danyspin97/xdgpp) used to handle folder paths on Linux
-- Thanks to aquynh for [capstone](https://github.com/aquynh/capstone) which is the base of the disassembly window
-- Thanks to rxi for [microtar](https://github.com/rxi/microtar) used for extracting downloaded store assets 
-- Thanks to VirusTotal for [Yara](https://github.com/VirusTotal/yara) used by the Yara plugin
-- Thanks to Martinsos for [edlib](https://github.com/Martinsos/edlib) used for sequence searching in the diffing view
-- Thanks to ron4fun for [HashLibPlus](https://github.com/ron4fun/HashLibPlus) which implements every hashing algorithm under the sun
-- Thanks to mackron for [miniaudio](https://github.com/mackron/miniaudio) used to play audio files
-- Thanks to all other groups and organizations whose libraries are used in ImHex
+Consequently, MTD passthrough mode is not applicable. Direct programming
+is instead intended to be implemented through a WinUSB-based userspace
+backend.
 
-### License
+### **macOS**
 
-The biggest part of ImHex is under the GPLv2-only license. 
-Notable exceptions to this are the following parts which are under the LGPLv2.1 license:
-- **/lib/libimhex**: The library that allows Plugins to interact with ImHex.
-- **/plugins/ui**: The UI plugin library that contains some common UI elements that can be used by other plugins
+There is currently no planned macOS implementation.
 
-The reason for this is to allow for proprietary plugins to be developed for ImHex.
+However, direct programming support may be possible in the future
+through an appropriate userspace hardware-access backend.
 
-### Code Signing Policy
+MTD passthrough is not applicable to macOS.
 
-Free code signing provided by [SignPath.io](https://about.signpath.io/),
-certificate by [SignPath Foundation](https://signpath.org/).
+## **Communication and networking**
 
-This program will not transfer any information to other networked systems
-unless specifically requested by the user or the person installing or
-operating it.
+The graphical application communicates with OS connector instances
+through a socket-based protocol.
 
-#### People with direct push access
-- [WerWolv](https://github.com/WerWolv)
-- [iTrooz](https://github.com/iTrooz)
-- [jumanji144](https://github.com/jumanji144)
-- [AxCut](https://github.com/paxcut)
+The preferred transport is a Unix domain socket (`AF_UNIX`), supported
+natively by Linux and modern Windows versions.
+
+For older Windows versions, such as Windows 7, and for remote
+connections, regular TCP sockets can be used.
+
+The intended architecture supports both local and remote NAND devices
+without requiring the graphical application to implement
+platform-specific hardware access.
+
+### **OS connector protocol**
+
+The communication protocol is designed around CBOR serialization and
+length-prefixed messages.
+
+The initial protocol design is as follows:
+
+| Property | Specification | | ----- | ----- | | Serialization | CBOR |
+| Message framing | 4-byte big-endian length prefix | | Maximum message
+size | 16 MB (initially) | | Text encoding | UTF-8 | | Field identifiers
+| Integer keys or documented text keys | | Byte order | Big-endian | |
+Protocol versioning | Explicit protocol version | | Unknown fields |
+Ignore when safe | | Unknown message types | Return an error | | Invalid
+CBOR | Reject the message | | Remote transport security | TLS |
+
+All numeric protocol fields are unsigned and encoded in big-endian byte
+order. Raw data payloads are transmitted without byte-order conversion.
+
+#### **Request format**
+
+A client request consists of the following header followed by an
+optional data payload:
+```
++----------------------+------------------+----------------------+ 
+| Data length (32-bit) | Command (32-bit) | Request ID (64-bit)  |
++----------------------+------------------+----------------------+ 
+| Data (N bytes)                                                 |
++----------------------------------------------------------------+
+```
+
+#### **Response format**
+
+A server response consists of the following header followed by an
+optional data payload:
+```
++----------------------+--------------------------+---------------------+
+| Status (16-bit)      | Response length (32-bit) | Request ID (64-bit) |
++----------------------+--------------------------+---------------------+
+| Data (N bytes)                                                        |
++-----------------------------------------------------------------------+
+```
+
+Request IDs allow clients to associate responses with their
+corresponding requests.
+
+#### **Connection handling**
+
+Initially, an OS connector server will accept only one client connection
+at a time.
+
+If a client becomes unresponsive or stops communicating, the server will
+eventually time out and terminate the connection. This allows another
+client, or the original client, to reconnect.
+
+## **Security**
+
+ImNAND is primarily intended for use within trusted private networks,
+such as:
+
+- Local loopback connections.
+- Private LANs.
+- VPN connections.
+
+The initial design does not include an authentication mechanism.
+
+Running an OS connector on an Internet-exposed network without
+additional security measures is strongly discouraged.
+
+Remote connections should use TLS, and appropriate firewall rules and
+network restrictions should be enforced.
+
+## **Technology**
+
+The project is intended to be written primarily in C.
+
+Keeping the implementation in C provides several advantages:
+
+- Portability across supported operating systems.
+- Straightforward integration with existing Linux kernel interfaces.
+- Easier integration with the existing `ufedmd` implementation.
+- A relatively lightweight OS connector.
+
+### **Planned external libraries**
+
+| Library | Purpose | | ----- | ----- | |
+[libuv](https://libuv.org/?utm_source=chatgpt.com) | Cross-platform
+asynchronous networking and I/O. | |
+[libcbor](https://libcbor.readthedocs.io/?utm_source=chatgpt.com) | CBOR
+serialization and deserialization. |
+
+The graphical application is based on the ImHex project, although ImNAND
+is intended to evolve independently around its NAND-specific
+functionality.
+
+## **License**
+
+The original project is licensed under GNU General Public License v2
+(GPL-2.0).
+
+ImNAND intends to retain GPL-2.0 licensing for its own code, subject to
+the licensing requirements of the original project and any third-party
+components.
+
+Plugin-specific licensing arrangements may be considered where legally
+compatible with the project's licensing obligations.
+
+## **Project history**
+
+The project originated from an idea to build a dedicated NAND flash
+programming utility for Windows.
+
+In July 2026, the initial concept was named NANDWin, short for:
+
+NAND Without Impractical Nonsense.
+
+Its original description was simply:
+
+NAND flash programming utility for Windows.
+
+During Fall 2026, the scope expanded after discovering the ImHex
+project. Rather than maintaining a separate Windows-only application,
+the direction shifted towards a cross-platform solution.
+
+This led to the name ImNAND and the idea of building a unified
+application that could provide both direct NAND programming and Linux
+MTD configuration.
+
+## **Project philosophy**
+
+ImNAND aims to provide a practical and flexible NAND flash programming
+environment without unnecessarily reinventing existing infrastructure.
+
+The graphical application should make NAND configuration accessible and
+reusable, while the OS connector should handle the platform-specific
+details of communicating with the hardware.
+
+Ultimately, the goal is to bring together direct NAND programming and
+Linux MTD integration under one unified configuration and management
+interface.
