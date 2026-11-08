@@ -207,13 +207,19 @@ length-prefixed messages.
 
 The initial protocol design is as follows:
 
-| Property | Specification | | ----- | ----- | | Serialization | CBOR |
-| Message framing | 4-byte big-endian length prefix | | Maximum message
-size | 16 MB (initially) | | Text encoding | UTF-8 | | Field identifiers
-| Integer keys or documented text keys | | Byte order | Big-endian | |
-Protocol versioning | Explicit protocol version | | Unknown fields |
-Ignore when safe | | Unknown message types | Return an error | | Invalid
-CBOR | Reject the message | | Remote transport security | TLS |
+| Property | Specification | 
+| ----- | ----- | 
+| Serialization | CBOR |
+| Message framing | 4-byte big-endian length prefix |
+| Maximum message size | 16 MB (initially) |
+| Text encoding | UTF-8 |
+| Field identifiers | Integer keys or documented text keys |
+| Byte order | Big-endian |
+| Protocol versioning | Explicit protocol version | 
+| Unknown fields | Ignore when safe |
+| Unknown message types | Return an error | 
+| Invalid CBOR | Reject the message |
+| Remote transport security | TLS |
 
 All numeric protocol fields are unsigned and encoded in big-endian byte
 order. Raw data payloads are transmitted without byte-order conversion.
