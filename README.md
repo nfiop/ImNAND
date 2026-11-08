@@ -290,11 +290,13 @@ Keeping the implementation in C provides several advantages:
 
 ### **Planned external libraries**
 
-| Library | Purpose | | ----- | ----- | |
-[libuv](https://libuv.org/?utm_source=chatgpt.com) | Cross-platform
-asynchronous networking and I/O. | |
-[libcbor](https://libcbor.readthedocs.io/?utm_source=chatgpt.com) | CBOR
-serialization and deserialization. |
+| Library | Purpose | 
+| ----- | ----- | 
+| [libuv](https://libuv.org/) | Cross-platform asynchronous networking and I/O. |
+| [libcbor](https://libcbor.readthedocs.io/) | CBOR serialization and deserialization. |
+
+Please note that libcbor might be replaced with QCBOR in the future if
+it better fits the project goals.
 
 The graphical application is based on the ImHex project, although ImNAND
 is intended to evolve independently around its NAND-specific
