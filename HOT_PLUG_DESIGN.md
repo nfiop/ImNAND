@@ -111,6 +111,20 @@ the kernel to expose an event (via USB hot-plug event, for example) in
 a sane manner, but userspace is responsible for invoking of the ioctls
 and do its own re-map in its runtime's memory structures as well.
 
+### Insertion of kernel modules after program invocation
+
+This is a limitation that I considered a "won't-fix" issue.
+
+It is actually possible to load a kernel module which will spawn new
+MTDs which were not recognized/exposed before the insertion.
+
+I decided to not tackle this problem, because in my opinion all platform
+interfaces should be ready at the point when OS connector start to
+execute.
+
+Whether it's resolved by better scripting or proper management of system
+service's priorities, is actually out of the scope in this project.
+
 ## Windows
 
 On Windows it's actually quite easy to handle this, becasue there's no
