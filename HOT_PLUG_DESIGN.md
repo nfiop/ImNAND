@@ -89,6 +89,16 @@ module).
 The second mode will spawn a control device and `/proc/nand` node that
 prints all NAND flash memories (i.e. MTD NAND device nodes).
 
+For example, an output from such procfs node can look like this:
+```sh
+# cat /proc/nand
+name blocksize totalsize state driver
+
+mtd1 20000 1000000 stale usbnfc
+mtd3 10000 1000000 alive gpmc-nand
+mtd4 20000 1000000 alive usbnfc
+```
+
 It relies on a hot-pluggable hardware interface - USB is a notable
 example, but even a normally non-hotpluggable platform-based interface
 can be adapted to have such capability (see #Detachable sockets).
