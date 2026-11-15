@@ -60,7 +60,7 @@ typedef struct {
 extern hotplug_queue_t g_hotplug_queue;
 
 void queue_init(hotplug_queue_t *q);
-int queue_push(hotplug_queue_t *q, hotplug_event_t *queued_event);
+errno_t queue_push(hotplug_queue_t *q, hotplug_event_t *queued_event);
 void queue_pop_blocking(hotplug_queue_t *q, hotplug_event_t *recv_event);
 
 #define GLOBAL_QUEUE_PUSH_HOTPLUG_EVENT(__queued_event)                        \

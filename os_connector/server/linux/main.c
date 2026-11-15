@@ -3,7 +3,6 @@
  * Copyright (c) 2026 Liav A
  */
 
-#include <asm-generic/errno.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -19,7 +18,7 @@
 #define VERSION "unknown"
 #endif
 
-int is_module_loaded(const char *module_name)
+errno_t is_module_loaded(const char *module_name)
 {
 	FILE *fp;
 	char line[256];
@@ -51,9 +50,9 @@ static bool is_path_existing_and_accessible(const char *path)
 	return access(path, F_OK) == 0;
 }
 
-static int check_ufedm_inserted_in_dynamic_mode()
+static errno_t check_ufedm_inserted_in_dynamic_mode()
 {
-	int rc;
+	errno_t rc;
 
 	/* Check that ufedm is inserted already */
 	rc = is_module_loaded("ufedm");
@@ -82,9 +81,9 @@ static int check_ufedm_inserted_in_dynamic_mode()
 	return 0;
 }
 
-int linux_platform_main(struct options *opts)
+errno_t linux_platform_main(struct options *opts)
 {
-	int rc;
+	errno_t rc;
 	UNUSED(opts);
 
 	rc = check_ufedm_inserted_in_dynamic_mode();

@@ -3,7 +3,6 @@
  * Copyright (c) 2026 Liav A
  */
 
-#include <asm-generic/errno.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -15,7 +14,7 @@
 #include "common/prog_opts.h"
 #include "common/types.h"
 
-int demo_platform_main(struct options *opts)
+errno_t demo_platform_main(struct options *opts)
 {
 	UNUSED(opts);
 	return 0;

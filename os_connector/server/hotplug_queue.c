@@ -16,7 +16,7 @@ void queue_init(hotplug_queue_t *q)
 	pthread_cond_init(&q->cond, NULL);
 }
 
-int queue_push(hotplug_queue_t *q, hotplug_event_t *event)
+errno_t queue_push(hotplug_queue_t *q, hotplug_event_t *event)
 {
 	pthread_mutex_lock(&q->mutex);
 
@@ -24,7 +24,7 @@ int queue_push(hotplug_queue_t *q, hotplug_event_t *event)
 	if (next == q->head) {
 		// queue full
 		pthread_mutex_unlock(&q->mutex);
-		return -1;
+		return -ENOMEM;
 	}
 
 	memcpy(&q->items[q->tail], event, sizeof(hotplug_event_t));

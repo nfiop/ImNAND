@@ -73,7 +73,7 @@ static void print_options(const struct options *opts)
 	printf("  verbose:                   %u\n", opts->verbose);
 }
 
-int parse_args(int argc, char **argv)
+errno_t parse_args(int argc, char **argv, bool *should_exit)
 {
 	static const struct option long_options[] = {
 	    {"config", required_argument, NULL, 'c'},
@@ -98,7 +98,7 @@ int parse_args(int argc, char **argv)
 		case 'p':
 			if (!parse_port(optarg, &g_opts.port)) {
 				fprintf(stderr, "Invalid port: %s\n", optarg);
-				return EXIT_FAILURE;
+				return -EINVAL;
 			}
 			break;
 
@@ -125,15 +125,18 @@ int parse_args(int argc, char **argv)
 
 		case 'V':
 			printf("%s\n", "");
-			return EXIT_SUCCESS;
+			*should_exit = true;
+			return 0;
 
 		case 'h':
 			print_usage(argv[0]);
-			return EXIT_SUCCESS;
+			*should_exit = true;
+			return 0;
 
 		default:
 			print_usage(argv[0]);
-			return EXIT_FAILURE;
+			*should_exit = true;
+			return -EINVAL;
 		}
 	}
 
@@ -141,7 +144,8 @@ int parse_args(int argc, char **argv)
 	if (optind < argc) {
 		fprintf(stderr, "Unexpected argument: %s\n", argv[optind]);
 		print_usage(argv[0]);
-		return EXIT_FAILURE;
+		*should_exit = true;
+		return -EINVAL;
 	}
 
 	/* Demo mode and configuration file are mutually exclusive. */
@@ -151,10 +155,12 @@ int parse_args(int argc, char **argv)
 		fprintf(stderr, "Error: --config is required unless --demo is "
 				"specified.\n");
 		print_usage(argv[0]);
-		return EXIT_FAILURE;
+		*should_exit = true;
+		return -EINVAL;
 	}
 
 	LOG_IF(1, print_options(&g_opts));
 
-	return EXIT_SUCCESS;
+	*should_exit = false;
+	return 0;
 }

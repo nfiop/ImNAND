@@ -11,11 +11,25 @@
 #include <stddef.h>
 #include <stdint.h>
 
+/* FIXME: Used for propagating errno definitions, might not
+ * be existing on Windows platforms.
+ */
+#include <asm-generic/errno.h>
+
 /* For loading of MTD configuration, we simply use Jansson directly */
 #include <jansson.h>
 
 #define MAX_NAME_LEN 256
 #define UNUSED(__x) (void)__x
+
+/* Used for functions that return errno number -
+ * either zero or a negative number (for POSIX error).
+ * for example -
+ * ```
+ *	return -ENOMEM;
+ * ```
+ */
+typedef int errno_t;
 
 /* This macro is inspired from the Linux kernel - it should allocate
  * a memory area and zero it afterwards.

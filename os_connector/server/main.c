@@ -24,9 +24,9 @@
 #include "common/types.h"
 #include "server/hotplug_queue.h"
 
-extern int platform_main(struct options *opts);
-extern int demo_platform_main(struct options *opts);
-extern int parse_args(int argc, char **argv);
+extern errno_t platform_main(struct options *opts);
+extern errno_t demo_platform_main(struct options *opts);
+extern errno_t parse_args(int argc, char **argv, bool *should_exit);
 
 hotplug_queue_t g_hotplug_queue;
 
@@ -58,9 +58,15 @@ static int initialize_platform()
 int main(int argc, char **argv)
 {
 	int rc;
-	rc = parse_args(argc, argv);
-	if (rc != EXIT_SUCCESS)
+	bool should_exit;
+	rc = parse_args(argc, argv, &should_exit);
+	if (rc != 0)
 		return EXIT_FAILURE;
+	/* Maybe we still need to exit (we were asked to print the
+	 * version, etc).
+	 */
+	if (should_exit)
+		return EXIT_SUCCESS;
 
 	/* Initialize a POSIX-based hotplug queue for delivering hot-plug events
 	 * from the platform.
