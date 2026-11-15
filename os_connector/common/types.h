@@ -81,17 +81,19 @@ struct nand_device {
 	 * On Windows, a combination of WinUSB is put together like this:
 	 *  WinUSB:usb_bus:device_num:chip_num
 	 *
-	 * On Linux, for example, for USB, the name is "USB on Bus 001 Device
-	 * 009": usb:0001:0009
+	 * On Linux, for example, for USB, the name "USB on Bus 001 Device
+	 * 009" is:
+	 * 	usb:0001:0009
 	 *
 	 * For other drivers (platform interfaces), such as sunxi_nand, device
-	 * on chip select 1: sunxi_nand:0001
+	 * on chip select 1:
+	 * 	sunxi_nand:0001
 	 */
 	char *name;
 
 	/* Geometry details */
 	size_t erase_block_size;
-	size_t page_size; // including OOB size
+	size_t total_page_size; // including OOB size
 	size_t page_oob_size;
 
 	nand_device_intf_bus_type_t bus_type;
