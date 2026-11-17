@@ -2,10 +2,6 @@
 	path = lib/third_party/nativefiledialog
 	url = https://github.com/btzy/nativefiledialog-extended
 	ignore = dirty
-[submodule "lib/third_party/yara/yara"]
-	path = lib/third_party/yara/yara
-	url = https://github.com/VirusTotal/yara
-	ignore = dirty
 [submodule "lib/third_party/xdgpp"]
 	path = lib/third_party/xdgpp
 	url = https://github.com/WerWolv/xdgpp
@@ -13,10 +9,6 @@
 [submodule "lib/third_party/fmt"]
 	path = lib/third_party/fmt
 	url = https://github.com/fmtlib/fmt
-	ignore = dirty
-[submodule "lib/third_party/capstone"]
-	path = lib/third_party/capstone
-	url = https://github.com/capstone-engine/capstone
 	ignore = dirty
 [submodule "lib/third_party/edlib"]
 	path = lib/third_party/edlib
@@ -40,12 +32,6 @@
 [submodule "lib/third_party/HashLibPlus"]
 	path = lib/third_party/HashLibPlus
     url = https://github.com/WerWolv/HashLibPlus
-[submodule "lib/external/disassembler"]
-	path = lib/external/disassembler
-	url = https://github.com/WerWolv/Disassembler
-[submodule "lib/third_party/md4c"]
-	path = lib/third_party/md4c
-	url = https://github.com/mity/md4c
 [submodule "lib/third_party/glfw"]
 	path = lib/third_party/glfw
 	url = https://github.com/WerWolv/glfw
