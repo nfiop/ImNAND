@@ -35,6 +35,6 @@
 [submodule "lib/third_party/glfw"]
 	path = lib/third_party/glfw
 	url = https://github.com/WerWolv/glfw
-[submodule "os_connector/libs/jansson"]
-	path = os_connector/libs/jansson
-	url = https://github.com/akheron/jansson.git
+[submodule "os_connector/libs/ufedmd"]
+	path = os_connector/libs/ufedmd
+	url = https://github.com/nfiop/ufedmd

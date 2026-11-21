@@ -24,11 +24,12 @@
 #include "common/types.h"
 #include "server/hotplug_queue.h"
 
-extern errno_t platform_main(struct options *opts);
-extern errno_t demo_platform_main(struct options *opts);
+extern errno_t platform_main(struct platform *, struct options *opts);
+extern errno_t demo_platform_main(struct platform *, struct options *opts);
 extern errno_t parse_args(int argc, char **argv, bool *should_exit);
 
 hotplug_queue_t g_hotplug_queue;
+struct platform g_platform;
 
 struct options g_opts = {.config = NULL,
     .address = "0.0.0.0",
@@ -42,14 +43,18 @@ static int initialize_platform()
 {
 	int rc;
 
+	/* NOTE: A configuration can still include demo NAND devices.
+	 * The options is merely to bypass the need for a configuration file
+	 * altogether.
+	 */
 	if (!g_opts.demo) {
-		rc = platform_main(&g_opts);
+		rc = platform_main(&g_platform, &g_opts);
 	} else {
 #if defined(__linux__)
 		LOG_INFO("info: using demo mode, consider using nandsim for "
 			 "MTD integration\n");
 #endif
-		rc = demo_platform_main(&g_opts);
+		rc = demo_platform_main(&g_platform, &g_opts);
 	}
 
 	return rc;
@@ -57,7 +62,7 @@ static int initialize_platform()
 
 int main(int argc, char **argv)
 {
-	int rc;
+	errno_t rc;
 	bool should_exit;
 	rc = parse_args(argc, argv, &should_exit);
 	if (rc != 0)

@@ -74,7 +74,7 @@ echo "==> Configuring"
 
 # Now is a good time to download the submodules, before doing anything else
 if command -v git >/dev/null 2>&1; then
-    git submodule update --init --recursive
+    git -C $ROOT_DIR submodule update --init --recursive
 else
     echo "Git is not installed or not available in PATH."
     exit 1
@@ -156,9 +156,12 @@ else
     # so we don't need to explicitly set them here.
 fi
 
-# Always copy latest files from jansson to the build directory.
-mkdir -p $BUILD_DIR/jansson/src
-rsync -r libs/jansson/ $BUILD_DIR/jansson/src/
+# Create a copy of jansson so the ufedmd (as a library) can compile as well.
+# We need to do this, because we don't invoke the build script for the ufedmd
+# as a library, so we need to manage its "dependencies".
+# FIXME: This is quite ugly. Find a better way to handle this.
+mkdir -p $BUILD_DIR/ufedmd/build/jansson/src
+rsync -r $ROOT_DIR/libs/ufedmd/libs/jansson/ $BUILD_DIR/ufedmd/build/jansson/src
 
 # --------------------------------------------------
 # Configure CMake

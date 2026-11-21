@@ -1,0 +1,53 @@
+cmake_minimum_required(VERSION 3.20)
+
+include(ExternalProject)
+
+set(UFEDMD_LIB_SOURCE_DIR
+    "${CMAKE_CURRENT_LIST_DIR}/ufedmd"
+)
+
+set(UFEDMD_LIB_ROOT_DIR
+    "${CMAKE_BINARY_DIR}/ufedmd"
+)
+
+set(UFEDMD_LIB_BUILD_DIR
+    "${UFEDMD_LIB_ROOT_DIR}/build"
+)
+
+set(UFEDMD_LIB_INSTALL_DIR
+    "${UFEDMD_LIB_ROOT_DIR}/install"
+)
+
+ExternalProject_Add(ufedmd
+    SOURCE_DIR
+        "${UFEDMD_LIB_SOURCE_DIR}"
+
+    BINARY_DIR
+        "${UFEDMD_LIB_BUILD_DIR}"
+
+    CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX=${UFEDMD_LIB_INSTALL_DIR}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+        -DCMAKE_AR=${CMAKE_AR}
+        -DCMAKE_RANLIB=${CMAKE_RANLIB}
+        -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+        -DBUILD_STANDALONE=OFF
+
+    BUILD_COMMAND
+        ${CMAKE_COMMAND} --build <BINARY_DIR>
+
+    INSTALL_COMMAND
+        ${CMAKE_COMMAND} --install <BINARY_DIR>
+
+    BUILD_ALWAYS
+        TRUE
+)
+
+set(UFEDMD_LIB_LIBRARY
+    "${UFEDMD_LIB_INSTALL_DIR}/lib/libufedmd.a"
+)
+
+set(UFEDMD_LIB_INCLUDE_DIR
+    "${UFEDMD_LIB_INSTALL_DIR}/include"
+)

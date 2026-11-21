@@ -52,18 +52,6 @@ static bool is_path_existing_and_accessible(const char *path)
 
 static errno_t check_ufedm_inserted_in_dynamic_mode()
 {
-	errno_t rc;
-
-	/* Check that ufedm is inserted already */
-	rc = is_module_loaded("ufedm");
-	if (rc < 0) {
-		if (rc == -ENXIO)
-			fprintf(stderr, "Module ufedm is NOT inserted.\n");
-		else
-			fprintf(stderr, "Error checking module status.\n");
-		return rc;
-	}
-
 	/* /proc/nand is used for mapping all NAND flash memories in runtime */
 	if (is_path_existing_and_accessible("/proc/nand")) {
 		LOG_INFO("/proc/nand is not accessible.\n");
@@ -81,14 +69,48 @@ static errno_t check_ufedm_inserted_in_dynamic_mode()
 	return 0;
 }
 
-errno_t linux_platform_main(struct options *opts)
+static errno_t check_ufedm_inserted_in_static_mode()
 {
+	/* The ufedm_proxy0 device node is guaranteed to exist in static mode,
+	 * because there must be simply at least one device being attached.
+	 */
+	if (is_path_existing_and_accessible("/dev/ufedm_proxy0")) {
+		LOG_INFO("/dev/ufedm_proxy0 is not accessible.\n");
+		return -ENODEV;
+	}
+
+	return 0;
+}
+
+errno_t linux_platform_main(struct platform *platform, struct options *opts)
+{
+	bool static_mode;
 	errno_t rc;
+
 	UNUSED(opts);
+	UNUSED(platform);
+	UNUSED(static_mode);
+
+	/* Check that ufedm is inserted already */
+	rc = is_module_loaded("ufedm");
+	if (rc < 0) {
+		if (rc == -ENXIO)
+			fprintf(stderr, "Module ufedm is NOT inserted.\n");
+		else
+			fprintf(stderr, "Error checking module status.\n");
+		return rc;
+	}
+
+	static_mode = false;
 
 	rc = check_ufedm_inserted_in_dynamic_mode();
-	if (rc < 0)
-		return rc;
+	if (rc < 0) {
+		rc = check_ufedm_inserted_in_static_mode();
+		if (rc < 0)
+			return rc;
+
+		static_mode = true;
+	}
 
 	return 0;
 }

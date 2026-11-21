@@ -11,10 +11,11 @@
 #include <stddef.h>
 #include <stdint.h>
 
-/* FIXME: Used for propagating errno definitions, might not
- * be existing on Windows platforms.
- */
-#include <asm-generic/errno.h>
+/* Used in struct platform */
+#include "ufedmd-common/hashmap.h"
+
+/* POSIX errno for errno_t type */
+#include <errno.h>
 
 /* For loading of MTD configuration, we simply use Jansson directly */
 #include <jansson.h>
@@ -30,6 +31,9 @@
  * ```
  */
 typedef int errno_t;
+
+/* Used for Indexed objects, without worrying about overflow */
+typedef uint64_t idx_t;
 
 /* This macro is inspired from the Linux kernel - it should allocate
  * a memory area and zero it afterwards.
@@ -109,10 +113,15 @@ struct nand_device {
 struct nand_device_adapter_slot {
 	size_t slot_idx;
 
+	/* Parent adapter. Doesn't need a lock, because it's presumably
+	 * safe to change this while the platform's adapters_lock is taken
+	 * in write-mode.
+	 */
 	struct nand_device_adapter *adapter;
 
 	/* Populated device. Can be NULL, if no device is populated */
 	struct nand_device *device;
+	pthread_rwlock_t adapters_lock;
 
 	/* A slot can be configured to use a detachable socket, hence making
 	 * the device to be swapped in a graceful manner.
@@ -124,6 +133,9 @@ struct nand_device_adapter_slot {
 };
 
 struct nand_device_adapter {
+	/* A global unique index number */
+	idx_t id;
+
 	/* A unique name, used for the hashmap for locating a specific adapter.
 	 *
 	 * On Windows, a combination of WinUSB is put together like this:
@@ -193,8 +205,12 @@ struct platform {
 
 	/* Hashmap of NAND device adapters, specifically a hashmap to handle
 	 * hotplug cases of USB adapters, for example.
+	 * The hashmap is normally guarded by a RW-lock, as multiple
+	 * concurrent clients might read it, but only the hotplug code
+	 * might acquire it for "write" purposes (such as updating it).
 	 */
 	struct hashmap *adapters;
+	pthread_rwlock_t adapters_lock;
 
 	struct platform_io_ops *io_ops;
 };
