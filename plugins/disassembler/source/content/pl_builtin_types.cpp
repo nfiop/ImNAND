@@ -98,7 +98,7 @@ namespace hex::plugin::disasm {
                     else if (equalsIgnoreCase(syntaxString, "motorola"))
                         syntax = CS_OPT_SYNTAX_MOTOROLA;
                     else if (equalsIgnoreCase(syntaxString, "default"))
-                        syntax = CS_OPT_SYNTAX_DEFAULT;
+                      syntax = CS_OPT_SYNTAX_DEFAULT;
                     else
                         err::E0012.throwError(fmt::format("Invalid disassembler syntax name '{}'", syntaxString));
 

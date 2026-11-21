@@ -1,9 +1,9 @@
 #include <algorithm>
 #include <hex/api/content_registry/data_processor.hpp>
 #include <hex/api/localization_manager.hpp>
-#include <hex/helpers/scaling.hpp>
-#include <hex/helpers/crypto.hpp>
 #include <hex/data_processor/node.hpp>
+#include <hex/helpers/crypto.hpp>
+#include <hex/helpers/scaling.hpp>
 
 #include <nlohmann/json.hpp>
 
@@ -66,7 +66,7 @@ namespace hex::plugin::builtin {
 
             auto output = crypt::aesDecrypt(mode, keyLength, key, nonce, iv, input, tag, aad);
             if (!output)
-                throwNodeError(crypt::getErrorString(output.error()));
+              throwNodeError(crypt::getErrorString(output.error()));
 
             this->setBufferOnOutput(4, output.value());
         }

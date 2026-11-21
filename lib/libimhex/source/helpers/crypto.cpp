@@ -136,30 +136,29 @@ namespace hex::crypt {
         return calcCrc<32>(data, offset, size, polynomial, init, xorOut, reflectIn, reflectOut);
     }
 
-
     std::vector<u8> decode16(const std::string &input) {
-        if ((input.size() % 2) != 0)
-            return {};
+      if ((input.size() % 2) != 0)
+        return {};
 
-        const auto decodeNibble = [](char value) -> int {
-            if (value >= '0' && value <= '9')
-                return value - '0';
-            if (value >= 'a' && value <= 'f')
-                return value - 'a' + 10;
-            if (value >= 'A' && value <= 'F')
-                return value - 'A' + 10;
-            return -1;
-        };
+      const auto decodeNibble = [](char value) -> int {
+        if (value >= '0' && value <= '9')
+          return value - '0';
+        if (value >= 'a' && value <= 'f')
+          return value - 'a' + 10;
+        if (value >= 'A' && value <= 'F')
+          return value - 'A' + 10;
+        return -1;
+      };
 
-        std::vector<u8> output(input.size() / 2);
-        for (size_t index = 0; index < output.size(); ++index) {
-            const auto high = decodeNibble(input[index * 2]);
-            const auto low = decodeNibble(input[index * 2 + 1]);
-            if (high < 0 || low < 0)
-                return {};
+      std::vector<u8> output(input.size() / 2);
+      for (size_t index = 0; index < output.size(); ++index) {
+        const auto high = decodeNibble(input[index * 2]);
+        const auto low = decodeNibble(input[index * 2 + 1]);
+        if (high < 0 || low < 0)
+          return {};
 
-            output[index] = static_cast<u8>((high << 4) | low);
-        }
+        output[index] = static_cast<u8>((high << 4) | low);
+      }
 
         return output;
     }
@@ -249,5 +248,4 @@ namespace hex::crypt {
     std::vector<u8> encodeSleb128(i128 value) {
         return encodeLeb128<i128>(value);
     }
-
 }
