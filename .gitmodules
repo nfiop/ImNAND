@@ -35,3 +35,6 @@
 [submodule "lib/third_party/glfw"]
 	path = lib/third_party/glfw
 	url = https://github.com/WerWolv/glfw
+[submodule "os_connector"]
+	path = os_connector
+	url = https://github.com/nfiop/ufedm-server
